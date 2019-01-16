@@ -73,7 +73,7 @@ line <- ggplot(line_df, aes(x = year, y = lifeExp)) +
 plot(line)
 ```
 
-Here is what the `bbc_style()` function actually does under the hood. It essentially modifies sets certain arguments in the `theme` function of `ggplot2`.
+Here is what the `bbc_style()` function actually does under the hood. It essentially modifies certain arguments in the `theme` function of `ggplot2`.
 
 For example, the first argument  is setting the font, size, typeface and colour of the title element of the plot.
 
@@ -81,7 +81,7 @@ For example, the first argument  is setting the font, size, typeface and colour 
 bbplot::bbc_style
 ```
 
-You can modify these settings for your chart, or add additional theme arguments, by calling the `theme` function with the arguments you want - but please note that for it to work you must call it _after_ you have called the `bbc_style` function.
+You can modify these settings for your chart, or add additional theme arguments, by calling the `theme` function with the arguments you want - but please note that for it to work you must call it _after_ you have called the `bbc_style` function. Otherwise `bbc_style()` will override it. 
 
 This will add some gridlines and are extra theme arguments to what is included in the `bbc_style()` function. There are many similar examples throughout the cookbook.
 
@@ -100,16 +100,16 @@ Here are the function arguments:
 
 * `plot_name`: the variable name that you have called your plot, for example for the chart example above `plot_name` would be `"line"`    
 *  `source`: the source text that you want to appear at the bottom left corner of your plot. You will need to type the word `"Source:"`  before it, so for example `source = "Source: ONS"` would be the right way to do that.
-* `save_filepath`: the precise filepath that you want your graphic to save to, including the `.png` extension at the end. This does depend on your working directory and if you are in a specific R project. An example filepath would be: `Users/stylin02/bbc/r/vjdata.18529.nhs.ambulance.delays/output/charts/chart.png`.
-* `width_pixels`: this is set to 640px by default, so only call this argument and specify the width you want your chart to be. 
-* `height_pixels`: this is set to 450px by default, so only call this argument and specify the height you want your chart to be. 
-* `logo_image_path`: the filepath to the logo image you would like to appear at the bottom right side of your plot, in the footer, which needs to be a PNG file. By default this is set to an empty background image that matches the colour of the plot background so it looks like there is nothing there, but you are able to change this and add your own image or logo if you wish. 
+* `save_filepath`: the relative or precise filepath that you want your graphic to save to, including the `.png` extension at the end. This does depend on your working directory and if you are in a specific R project. An example filepath would be: `Users/stylin02/bbc/r/vjdata.18529.nhs.ambulance.delays/output/charts/chart.png`.
+* `width_pixels`: this is set to 640px by default, so only call this argument if you need your chart to be a different width, and specify what you want it to be. 
+* `height_pixels`: this is set to 450px by default, so only call this argument if you need your chart to be a different height and specify what you want it to be. 
+* `logo_image_path`: the filepath to the logo image you would like to appear at the bottom right side of your plot, in the footer, which needs to be a PNG file. By default this is set to an empty background image, but you are able to change this and add your own image or logo if you wish. 
 
 Example of how the `finalise_plot()` is used in a standard workflow. This function is called once you have created and finalised your chart data, titles and added the `bbc_style()` to it:
 
 ``` {r eval = FALSE}
 finalise_plot(plot_name = my_line_plot,
-              source = "Gapminder",
+              source = "Source: Gapminder",
               save_filepath = "filename_that_my_plot_should_be_saved_to-nc.png",
               width_pixels = 640,
               height_pixels = 550)
@@ -136,8 +136,6 @@ finalise_plot(plot_name = line,
 
 ## Make a line chart
 
-### Simple line chart
-
 ```{r message = FALSE}
 #Prepare data
 line_df <- gapminder %>%
@@ -156,7 +154,7 @@ line <- ggplot(line_df, aes(x = year, y = lifeExp)) +
 plot(line)
 ```
 
-### Multiple line charts
+## Make a multiple line chart
 
 ```{r}
 #Prepare data
@@ -183,8 +181,8 @@ plot(multiple_line)
 ```{r}
 #Prepare data
 bar_df <- gapminder %>%
-  filter(year == 2007) %>%
-  arrange(lifeExp) %>%
+  filter(year == 2007 & continent == "Africa") %>%
+  arrange(desc(lifeExp)) %>%
   head(5)
 
 #Make plot
@@ -194,8 +192,8 @@ bars <- ggplot(bar_df, aes(x = country, y = lifeExp)) +
            fill="#1380A1") +
   geom_hline(yintercept = 0, size = 1, colour="#333333") +
   bbc_style() +
-  labs(title="Swaziland is lowest",
-       subtitle = "Lowest life expectancy, 2007")
+  labs(title="Reunion is highest",
+       subtitle = "Highest African life expectancy, 2007")
 ```
 
 ```{r echo=FALSE}
@@ -285,7 +283,7 @@ plot(grouped_bars)
 
 ## Make a dumbbell chart
 
-Another way of showing this data is a dumbbell chart:
+Another way of showing difference is a dumbbell chart:
 
 ```{r}
 library("ggalt")
@@ -310,7 +308,6 @@ ggplot(dumbbell_df, aes(x = `1967`, xend = `2007`, y = reorder(country, gap), gr
   labs(title="We're living longer",
        subtitle="Biggest life expectancy rise, 1967-2007")
 ```
-
 
 ## Make a histogram
 
@@ -463,12 +460,12 @@ plot(bars)
 
 ###Change the axis text manually
 
-The axis text of our bar chart looks weird. You can change the axis text labels freely with `scale_y_continuous` or `scale_x_continuous`:
+You can change the axis text labels freely with `scale_y_continuous` or `scale_x_continuous`:
 
 ```{r}
-bars <- bars + scale_y_continuous(limits=c(0,45),
-                   breaks = seq(0, 40, by = 10),
-                   labels = c("0","10", "20", "30", "40 years"))
+bars <- bars + scale_y_continuous(limits=c(0,85),
+                   breaks = seq(0, 80, by = 20),
+                   labels = c("0","20", "40", "60", "80 years"))
 
 bars
 ```
@@ -638,7 +635,7 @@ The exact value of `y` will depend on the range of your data.
 ```{r}
 labelled.bars.v2 <- bars +
   geom_label(aes(x = country, 
-                 y = 2, 
+                 y = 4, 
                  label = round(lifeExp, 0)),
              hjust = 0, 
              vjust = 0.5, 
@@ -822,13 +819,13 @@ By default, R will display your data in alphabetical order, but arranging it by 
 E.g. `x = reorder(country, pop)`. Ascending order is the default, but you can change it to descending by wrapping `desc()` around the variable you're ordering by:
 
 ```{r}
-bars <- ggplot(bar_df, aes(x = reorder(country, desc(lifeExp)), y = lifeExp)) +
+bars <- ggplot(bar_df, aes(x = reorder(country, lifeExp), y = lifeExp)) +
   geom_bar(stat="identity", position="identity", fill="#1380A1") +
   geom_hline(yintercept = 0, size = 1, colour="#333333") +
   bbc_style() +
   coord_flip() +
-  labs(title="Swaziland is lowest",
-       subtitle = "Shortest life expectancy, 2007") +
+  labs(title="Reunion is highest",
+       subtitle = "Highest African life expectancy, 2007") +
   theme(panel.grid.major.x = element_line(color="#cbcbcb"), 
         panel.grid.major.y=element_blank())
 ```
@@ -859,13 +856,13 @@ The syntax is `fill=ifelse(logical_condition, fill_if_true, fill_if_false)`.
 
 ```{r}
 ggplot(bar_df, 
-       aes(x = reorder(country, desc(lifeExp)), y = lifeExp)) +
-  geom_bar(stat="identity", position="identity", fill=ifelse(bar_df$country == "Zambia", "#1380A1", "#dddddd")) +
+       aes(x = reorder(country, lifeExp), y = lifeExp)) +
+  geom_bar(stat="identity", position="identity", fill=ifelse(bar_df$country == "Mauritius", "#1380A1", "#dddddd")) +
   geom_hline(yintercept = 0, size = 1, colour="#333333") +
   bbc_style() +
   coord_flip() +
-  labs(title="Swaziland is lowest",
-       subtitle = "Shortest life expectancy, 2007") +
+  labs(title="Reunion is highest",
+       subtitle = "Highest African life expectancy, 2007") +
   theme(panel.grid.major.x = element_line(color="#cbcbcb"), 
         panel.grid.major.y=element_blank()) 
 ```
