@@ -41,7 +41,16 @@ pacman::p_load('dplyr', 'tidyr', 'gapminder',
 
 ### Install the bbplot package
 
-The best and most efficient way to get set up to create BBC style graphics is to [follow the instructions in the bbplot package repository](https://github.com/bbc/bbplot).
+`bbplot` is not on CRAN, so you will have to install it directly from Github using `devtools`. 
+
+If you do not have the `devtools` package installed, you will have to run the first line in the code below as well. 
+
+``` {r eval = FALSE}
+# install.packages('devtools')
+devtools::install_github('bbc/bbplot')
+```
+
+For more info on `bbplot` check out the [package's Github repo](https://github.com/bbc/bbplot), but most of the details about how to use the package and its functions are detailed below. 
 
 When you have downloaded the package and successfully installed it you are good to go and create charts. 
 
@@ -100,10 +109,17 @@ Here are the function arguments:
 
 * `plot_name`: the variable name that you have called your plot, for example for the chart example above `plot_name` would be `"line"`    
 *  `source`: the source text that you want to appear at the bottom left corner of your plot. You will need to type the word `"Source:"`  before it, so for example `source = "Source: ONS"` would be the right way to do that.
+<<<<<<< HEAD
 * `save_filepath`: the relative or precise filepath that you want your graphic to save to, including the `.png` extension at the end. This does depend on your working directory and if you are in a specific R project. An example filepath would be: `Users/stylin02/bbc/r/vjdata.18529.nhs.ambulance.delays/output/charts/chart.png`.
 * `width_pixels`: this is set to 640px by default, so only call this argument if you need your chart to be a different width, and specify what you want it to be. 
 * `height_pixels`: this is set to 450px by default, so only call this argument if you need your chart to be a different height and specify what you want it to be. 
 * `logo_image_path`: the filepath to the logo image you would like to appear at the bottom right side of your plot, in the footer, which needs to be a PNG file. By default this is set to an empty background image, but you are able to change this and add your own image or logo if you wish. 
+=======
+* `save_filepath`: the precise filepath that you want your graphic to save to, including the `.png` extension at the end. This does depend on your working directory and if you are in a specific R project. An example filepath would be: `Users/stylin02/bbc/r/vjdata.18529.nhs.ambulance.delays/output/charts/chart.png`.
+* `width_pixels`: this is set to 640px by default, so only call this argument and specify the width you want your chart to be. 
+* `height_pixels`: this is set to 450px by default, so only call this argument and specify the height you want your chart to be. 
+* `logo_image_path`: this argument specifies the path for the image/logo in the bottom right corner of the plot. The default is for a placeholder PNG file with a background that matches the background colour of the plot, so do not specify the argument if you want it to appear without a logo. If you want to add your own logo, just specify the path to your PNG file. The package has been prepared with a wide and thin image in mind. 
+>>>>>>> ca03605b929695901f5b1d7c6282e240cf583e20
 
 Example of how the `finalise_plot()` is used in a standard workflow. This function is called once you have created and finalised your chart data, titles and added the `bbc_style()` to it:
 
