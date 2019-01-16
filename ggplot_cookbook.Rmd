@@ -24,12 +24,12 @@ options(scipen = 999)
 
 At the BBC data team, we have developed an R package and an R cookbook to make the process of creating publication-ready graphics in our in-house style using R's ggplot2 library a more reproducible process, as well as making it easier for people new to R to create graphics. 
 
-The cookbook below should hopefully help anyone who wants to make graphics like these.  
+The cookbook below should hopefully help anyone who wants to make graphics like these: 
   
 
-![Example of graphics created using the bbplot package](bbplot_example_plots.png)
+![](bbplot_example_plots.png)
 
-We'll get to how you can put together the various elements of these graphics, but **lets get the admin out of the way first...**
+We'll get to how you can put together the various elements of these graphics, but **let's get the admin out of the way first...**
 
 ### Load all the libraries you need
 
