@@ -6,4 +6,4 @@ The cookbook is available at this link:
 
 https://bbc.github.io/rcookbook
 
-![Example of graphics created using the bbplot package](chart_examples/bbplot_example_plots.png)
+![Example of graphics created using the bbplot package](bbplot_example_plots.png)
