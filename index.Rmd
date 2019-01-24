@@ -1,5 +1,5 @@
 ---
-title: "BBC Visual Journalism data team's cookbook for R graphics"
+title: "BBC Visual and Data Journalism cookbook for R graphics"
 date: "Last updated: `r format(Sys.Date())`"
 output: 
   html_document:
@@ -99,7 +99,7 @@ bbplot::bbc_style
 
 You can modify these settings for your chart, or add additional theme arguments, by calling the `theme` function with the arguments you want - but please note that for it to work you must call it _after_ you have called the `bbc_style` function. Otherwise `bbc_style()` will override it. 
 
-This will add some gridlines and are extra theme arguments to what is included in the `bbc_style()` function. There are many similar examples throughout the cookbook.
+This will add some gridlines, by adding extra theme arguments to what is included in the `bbc_style()` function. There are many similar examples throughout the cookbook.
 
 ```{r eval=FALSE}
 theme(panel.grid.major.x = element_line(color="#cbcbcb"), 
@@ -117,8 +117,8 @@ Here are the function arguments:
 * `plot_name`: the variable name that you have called your plot, for example for the chart example above `plot_name` would be `"line"`    
 *  `source`: the source text that you want to appear at the bottom left corner of your plot. You will need to type the word `"Source:"`  before it, so for example `source = "Source: ONS"` would be the right way to do that.
 * `save_filepath`: the precise filepath that you want your graphic to save to, including the `.png` extension at the end. This does depend on your working directory and if you are in a specific R project. An example filepath would be: `Desktop/R_projects/charts/line_chart.png`.
-* `width_pixels`: this is set to 640px by default, so only call this argument and specify the width you want your chart to be. 
-* `height_pixels`: this is set to 450px by default, so only call this argument and specify the height you want your chart to be. 
+* `width_pixels`: this is set to 640px by default, so only call this argument if you want the chart to have a different width, and specify what you want it to be. 
+* `height_pixels`: this is set to 450px by default, so only call this argument if you want the chart to have a different height, and specify what you want it to be. 
 * `logo_image_path`: this argument specifies the path for the image/logo in the bottom right corner of the plot. The default is for a placeholder PNG file with a background that matches the background colour of the plot, so do not specify the argument if you want it to appear without a logo. If you want to add your own logo, just specify the path to your PNG file. The package has been prepared with a wide and thin image in mind. 
 
 Example of how the `finalise_plot()` is used in a standard workflow. This function is called once you have created and finalised your chart data, titles and added the `bbc_style()` to it:
@@ -126,19 +126,19 @@ Example of how the `finalise_plot()` is used in a standard workflow. This functi
 ``` {r eval = FALSE}
 finalise_plot(plot_name = my_line_plot,
               source = "Source: Gapminder",
-              save_filepath = "filename_that_my_plot_should_be_saved_to-nc.png",
+              save_filepath = "filename_that_my_plot_should_be_saved_to.png",
               width_pixels = 640,
-              height_pixels = 550)
+              height_pixels = 450,
+              logo_image_path = "placeholder.png")
 ```
 
 So once you have created your plot and are relatively happy with it, you can use the `finalise_plot()` function to make the final adjustments and save out your chart so that you can look at it outside RStudio.
 
-It is important to mention that it is a good idea to do this early on because the position of the text and other elements do not render accurately in the RStudio Plots panel because this depends on the size and aspect ratio you want your plot to appea, so saving it out and opening up the files give you an accurate representation of how the graphic looks.
+It is important to mention that it is a good idea to do this early on because the position of the text and other elements do not render accurately in the RStudio Plots panel because this depends on the size and aspect ratio you want your plot to appear, so saving it out and opening up the files give you an accurate representation of how the graphic looks.
 
 The finalise_plot() function does more than just save out your chart, it also left-aligns the title and subtitle as is standard for BBC graphics, adds a footer with the logo on the right side and lets you input source text on the left side.
 
 So how can you save out the example plot created above?
-filename_that_my_plot_should_be_saved_to-nc.png
 
 ``` {r eval = FALSE}
 finalise_plot(plot_name = line,
